@@ -1,0 +1,13 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "postgres": "postgres://postgres:postgres@localhost:5432/rntodo",
+  "public": "../public/",
+  "auth": {
+    "idField": "id",
+    "token": {
+      "secret": "TeJRfcNTbqleVSFEShUiE2zHpC/KvJ1aTwEsgtxWcZuIWJjZsoRrSEpVJe4lV1UgSGKi16y3hBjsORmwPnXspQ=="
+    },
+    "local": {}
+  }
+}
