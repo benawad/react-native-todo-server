@@ -18,13 +18,14 @@ type Authorized {
 }
 
 type RootQuery {
-  viewer: User
+  viewer(token: String!): User
 }
 
 type RootMutation {
   createTodo (
     text: String!
     complete: Boolean
+    token: String!
   ): Todo
   
   signUp (
