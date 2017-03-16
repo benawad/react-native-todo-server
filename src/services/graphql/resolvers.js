@@ -27,8 +27,6 @@ export default function Resolvers() {
     },
     RootQuery: {
       viewer(root, { token }, context) {
-        console.log('Viewer');
-        console.log(token);
         return Viewer.find({
           provider: context.provider,
           token,
@@ -45,6 +43,15 @@ export default function Resolvers() {
             pubsub.publish('todoAdded', todo);
           });
       },
+      deleteTodo(root, { id, token }, context) {
+        return Todos.remove(id, {
+          provider: context.provider,
+          token,
+        })
+          .then(todo => {
+            pubsub.publish('todoDeleted', todo);
+          });
+      },
       signUp(root, args, context) {
         return Users.create(args);
       },
@@ -58,8 +65,9 @@ export default function Resolvers() {
     },
     Subscription: {
       todoAdded(todo) {
-        console.log('Subscription called');
-        console.log(todo);
+        return todo;
+      },
+      todoDeleted(todo) {
         return todo;
       },
     },

@@ -21,7 +21,6 @@ module.exports = function () {
   });
 
   app.use('/graphql', graphqlExpress((req) => {
-    console.log('connection');
     const { provider } = req.feathers;
 
     return {

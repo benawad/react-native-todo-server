@@ -8,6 +8,7 @@ type Todo {
 
 type Subscription {
   todoAdded: Todo
+  todoDeleted: Todo
 }
 
 type User {
@@ -31,6 +32,11 @@ type RootMutation {
     complete: Boolean
     token: String!
   ): Todo
+
+  deleteTodo (
+    id: String!
+    token: String!
+  ): Todo 
   
   signUp (
     email: String!
