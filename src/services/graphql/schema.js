@@ -6,6 +6,10 @@ type Todo {
   complete: Boolean
 }
 
+type Subscription {
+  todoAdded: Todo
+}
+
 type User {
   id: String! 
   email: String!
@@ -38,9 +42,11 @@ type RootMutation {
     password: String!
   ): Authorized
 }
+
 schema {
   query: RootQuery
   mutation: RootMutation
+  subscription: Subscription
 }
 `;
 

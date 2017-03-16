@@ -1,5 +1,6 @@
 import feathers from 'feathers-client';
 import superagent from 'superagent';
+import { pubsub } from './index';
 
 export default function Resolvers() {
   let app = this;
@@ -25,13 +26,24 @@ export default function Resolvers() {
       }
     },
     RootQuery: {
-      viewer(root, data, context) {
-        return Viewer.find(data);
+      viewer(root, { token }, context) {
+        console.log('Viewer');
+        console.log(token);
+        return Viewer.find({
+          provider: context.provider,
+          token,
+        });
       }
     },
     RootMutation: {
       createTodo(root, { text, complete, token }, context) {
-        return Todos.create({ text, complete }, { token });
+        return Todos.create({ text, complete }, {
+          provider: context.provider,
+          token,
+        })
+          .then(todo => {
+            pubsub.publish('todoAdded', todo);
+          });
       },
       signUp(root, args, context) {
         return Users.create(args);
@@ -43,6 +55,13 @@ export default function Resolvers() {
           password
         });
       },
-    }
+    },
+    Subscription: {
+      todoAdded(todo) {
+        console.log('Subscription called');
+        console.log(todo);
+        return todo;
+      },
+    },
   }
 }
