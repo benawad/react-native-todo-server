@@ -40,7 +40,10 @@ export default function Resolvers() {
           token,
         })
           .then(todo => {
-            pubsub.publish('todoAdded', todo);
+            pubsub.publish('todoChanges', {
+              op: 'created',
+              todo,
+            });
           });
       },
       deleteTodo(root, { id, token }, context) {
@@ -49,7 +52,12 @@ export default function Resolvers() {
           token,
         })
           .then(todo => {
-            pubsub.publish('todoDeleted', todo);
+            console.log('deleted');
+            console.log(todo);
+            pubsub.publish('todoChanges', {
+              op: 'deleted',
+              todo,
+            });
           });
       },
       signUp(root, args, context) {
@@ -64,11 +72,11 @@ export default function Resolvers() {
       },
     },
     Subscription: {
-      todoAdded(todo) {
-        return todo;
-      },
-      todoDeleted(todo) {
-        return todo;
+      todoChanges({ todo, op }) {
+        return {
+          op,
+          todo,
+        };
       },
     },
   }

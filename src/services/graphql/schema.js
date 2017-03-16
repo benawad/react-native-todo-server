@@ -6,9 +6,13 @@ type Todo {
   complete: Boolean
 }
 
+type TodoCrud {
+  op: String!
+  todo: Todo!
+}
+
 type Subscription {
-  todoAdded: Todo
-  todoDeleted: Todo
+  todoChanges: TodoCrud
 }
 
 type User {
