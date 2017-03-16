@@ -33,12 +33,19 @@ type RootQuery {
 type RootMutation {
   createTodo (
     text: String!
-    complete: Boolean
+    complete: Boolean!
     token: String!
   ): Todo
 
   deleteTodo (
     id: String!
+    token: String!
+  ): Todo 
+
+  updateTodo (
+    id: String!
+    text: String!
+    complete: Boolean!
     token: String!
   ): Todo 
   

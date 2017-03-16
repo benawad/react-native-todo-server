@@ -52,10 +52,25 @@ export default function Resolvers() {
           token,
         })
           .then(todo => {
-            console.log('deleted');
-            console.log(todo);
             pubsub.publish('todoChanges', {
               op: 'deleted',
+              todo,
+            });
+          });
+      },
+      updateTodo(root, 
+      { id, text, complete, token },
+      context) {
+        return Todos.update(id, {
+          text,
+          complete,
+        },{
+          provider: context.provider,
+          token,
+        })
+          .then(todo => {
+            pubsub.publish('todoChanges', {
+              op: 'updated',
               todo,
             });
           });
