@@ -61,7 +61,7 @@ export default function Resolvers() {
       updateTodo(root, 
       { id, text, complete, token },
       context) {
-        return Todos.update(id, {
+        return Todos.patch(id, {
           text,
           complete,
         },{
