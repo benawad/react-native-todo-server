@@ -99,6 +99,18 @@ export default function Resolvers() {
             });
           });
       },
+      deleteTodoList(root, { id, token }, context) {
+        return TodoLists.remove(id, {
+          provider: context.provider,
+          token,
+        })
+          .then(todoList => {
+            pubsub.publish('todoListChanges', {
+              op: 'deleted',
+              todoList,
+            });
+          });
+      },
       signUp(root, args, context) {
         return Users.create(args);
       },

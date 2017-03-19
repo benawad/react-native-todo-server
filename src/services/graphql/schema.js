@@ -66,6 +66,11 @@ type RootMutation {
     name: String!
     token: String!
   ): TodoList
+
+  deleteTodoList(
+    id: String!
+    token: String!
+  ): TodoList
   
   signUp (
     email: String!
