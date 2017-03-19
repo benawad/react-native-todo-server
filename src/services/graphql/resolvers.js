@@ -27,7 +27,7 @@ export default function Resolvers() {
       }
     },
     User: {
-      todoList(user, args, context) {
+      todoLists(user, args, context) {
         return TodoLists.find({
           query: {
             ownerId: user.id
@@ -78,10 +78,10 @@ export default function Resolvers() {
           provider: context.provider,
           token,
         })
-          .then(todo => {
+          .then(todos => {
             pubsub.publish('todoChanges', {
               op: 'updated',
-              todo,
+              todo: todos[0],
             });
           });
       },
@@ -91,7 +91,13 @@ export default function Resolvers() {
         }, { 
           provider: context.provider,
           token
-        });
+        })
+          .then(todoList => {
+            pubsub.publish('todoListChanges', {
+              op: 'created',
+              todoList,
+            });
+          });
       },
       signUp(root, args, context) {
         return Users.create(args);
@@ -105,11 +111,11 @@ export default function Resolvers() {
       },
     },
     Subscription: {
-      todoChanges({ todo, op }) {
-        return {
-          op,
-          todo,
-        };
+      todoChanges(todo) {
+        return todo;
+      },
+      todoListChanges(todoList) {
+        return todoList;
       },
     },
   }

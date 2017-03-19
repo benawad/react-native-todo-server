@@ -7,7 +7,8 @@ type Todo {
 }
 
 type TodoList {
-  name: String!
+  id: String
+  name: String
   todos: [Todo]
 }
 
@@ -16,14 +17,20 @@ type TodoCrud {
   todo: Todo!
 }
 
+type TodoListCrud {
+  op: String!
+  todoList: TodoList!
+}
+
 type Subscription {
   todoChanges: TodoCrud
+  todoListChanges: TodoListCrud
 }
 
 type User {
   id: String! 
   email: String!
-  todoList: TodoList
+  todoLists: [TodoList]
 }
 
 type Authorized {
