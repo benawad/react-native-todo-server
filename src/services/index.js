@@ -1,4 +1,5 @@
 'use strict';
+const todoList = require('./TodoList');
 const todo = require('./Todo');
 const viewer = require('./viewer');
 const graphql = require('./graphql');
@@ -18,9 +19,10 @@ module.exports = function() {
   app.configure(todo);
   app.configure(user);
   app.configure(viewer);
+  app.configure(todoList);
   app.configure(graphql);
 
-    // Setup relationships
+  // Setup relationships
   const models = sequelize.models;
   Object.values(models)
     .filter(model => model.associate)

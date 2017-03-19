@@ -6,6 +6,7 @@ export default function Resolvers() {
   let app = this;
   
   const Todos = app.service('Todos');
+  const TodoLists = app.service('TodoLists');
   const Users = app.service('users');
   const Viewer = app.service('viewer');
 
@@ -16,9 +17,18 @@ export default function Resolvers() {
     .configure(feathers.authentication());
 
   return {
-    User: {
-      todos(user, args, context) {
+    TodoList: {
+      todos(todoList, args, context) {
         return Todos.find({
+          query: {
+            listId: todoList.id
+          }
+        });
+      }
+    },
+    User: {
+      todoList(user, args, context) {
+        return TodoLists.find({
           query: {
             ownerId: user.id
           }
@@ -34,8 +44,8 @@ export default function Resolvers() {
       }
     },
     RootMutation: {
-      createTodo(root, { text, complete, token }, context) {
-        return Todos.create({ text, complete }, {
+      createTodo(root, { listId, text, complete, token }, context) {
+        return Todos.create({ text, complete, listId }, {
           provider: context.provider,
           token,
         })
@@ -74,6 +84,14 @@ export default function Resolvers() {
               todo,
             });
           });
+      },
+      createTodoList(root, { name, token }, context) {
+        return TodoLists.create({
+          name,
+        }, { 
+          provider: context.provider,
+          token
+        });
       },
       signUp(root, args, context) {
         return Users.create(args);

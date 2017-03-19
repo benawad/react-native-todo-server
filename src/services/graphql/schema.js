@@ -6,6 +6,10 @@ type Todo {
   complete: Boolean
 }
 
+type TodoList {
+  todos: [Todo]
+}
+
 type TodoCrud {
   op: String!
   todo: Todo!
@@ -18,7 +22,7 @@ type Subscription {
 type User {
   id: String! 
   email: String!
-  todos: [Todo]
+  todoList: TodoList
 }
 
 type Authorized {
@@ -34,6 +38,7 @@ type RootMutation {
   createTodo (
     text: String!
     complete: Boolean!
+    listId: String!
     token: String!
   ): Todo
 
@@ -48,6 +53,11 @@ type RootMutation {
     complete: Boolean!
     token: String!
   ): Todo 
+
+  createTodoList(
+    name: String!
+    token: String!
+  ): TodoList
   
   signUp (
     email: String!
