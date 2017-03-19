@@ -7,6 +7,7 @@ type Todo {
 }
 
 type TodoList {
+  name: String!
   todos: [Todo]
 }
 
