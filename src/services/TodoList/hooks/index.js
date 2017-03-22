@@ -12,11 +12,15 @@ exports.before = {
     auth.populateUser(),
     auth.restrictToAuthenticated()
   ],
-  find: [],
+  find: [
+    addRelationship()
+  ],
   get: [],
   create: [auth.associateCurrentUser({as: 'ownerId'}), addRelationship()],
   update: [],
-  patch: [addRelationship()],
+  patch: [
+    addRelationship()
+  ],
   remove: []
 };
 

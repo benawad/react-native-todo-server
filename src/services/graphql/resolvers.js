@@ -27,6 +27,9 @@ export default function Resolvers() {
       }
     },
     User: {
+      sharedTodoLists(user, args, context) {
+        return user.dataValues.TodoLists;
+      },
       todoLists(user, args, context) {
         return TodoLists.find({
           query: {
@@ -129,7 +132,6 @@ export default function Resolvers() {
               .then(user => 
                 todoList.addUser(user)
                 .then(newTodoList => {
-                  console.log(newTodoList[0][0].dataValues);
                   return newTodoList[0][0].dataValues;
                 })
               )

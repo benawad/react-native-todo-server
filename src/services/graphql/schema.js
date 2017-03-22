@@ -36,6 +36,7 @@ type User {
   id: String! 
   email: String!
   todoLists: [TodoList]
+  sharedTodoLists: [TodoList]
 }
 
 type Authorized {
