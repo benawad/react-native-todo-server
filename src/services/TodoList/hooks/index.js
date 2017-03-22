@@ -1,5 +1,7 @@
 'use strict';
 
+const addRelationship = require('./addRelationship');
+
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
@@ -12,11 +14,9 @@ exports.before = {
   ],
   find: [],
   get: [],
-  create: [
-    auth.associateCurrentUser({as: 'ownerId'})
-  ],
+  create: [auth.associateCurrentUser({as: 'ownerId'}), addRelationship()],
   update: [],
-  patch: [],
+  patch: [addRelationship()],
   remove: []
 };
 

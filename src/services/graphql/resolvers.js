@@ -97,6 +97,7 @@ export default function Resolvers() {
               op: 'created',
               todoList,
             });
+            return todoList;
           });
       },
       deleteTodoList(root, { id, token }, context) {
@@ -110,6 +111,29 @@ export default function Resolvers() {
               todoList,
             });
           });
+      },
+      shareTodoList(root, { listId, email, token }, context) {
+        return TodoLists.get(listId, {
+          provider: context.provider,
+          token,
+        })
+          .then(todoList => 
+            Users.find({
+              query: {
+                'email': email,
+              }
+            }, {
+              provider: context.provider,
+              token,
+            })
+              .then(user => 
+                todoList.addUser(user)
+                .then(newTodoList => {
+                  console.log(newTodoList[0][0].dataValues);
+                  return newTodoList[0][0].dataValues;
+                })
+              )
+          );
       },
       signUp(root, args, context) {
         return Users.create(args);

@@ -17,6 +17,11 @@ type TodoCrud {
   todo: Todo!
 }
 
+type TodoListShared {
+  userId: Int!
+  listId: Int!
+}
+
 type TodoListCrud {
   op: String!
   todoList: TodoList!
@@ -71,6 +76,12 @@ type RootMutation {
     id: String!
     token: String!
   ): TodoList
+
+  shareTodoList(
+    listId: String!
+    email: String!
+    token: String!
+  ): TodoListShared
   
   signUp (
     email: String!

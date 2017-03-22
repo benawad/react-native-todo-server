@@ -19,6 +19,10 @@ module.exports = function(sequelize) {
     classMethods: {
       associate(models) {
         TodoList.hasMany(models.Todos, { foreignKey: 'listId' });
+        TodoList.belongsToMany(models.users, {
+          through: 'ShareTodoList',
+          foreignKey: 'listId',
+        });
       },
     },
   });
